@@ -1,0 +1,629 @@
+import 'package:flutter/material.dart';
+
+void main() => runApp(MyApp());
+
+class MyApp extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return MaterialApp(
+      title: 'Voyage Budget',
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: LogoPage(),
+    );
+  }
+}
+
+class LogoPage extends StatefulWidget {
+  @override
+  _LogoPageState createState() => _LogoPageState();
+}
+
+class _LogoPageState extends State<LogoPage> {
+  final String logoImageUrl =
+      'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQO9xAlo-mIv83APUAeX9fBNs-oV6qPK9Gwom_X-5hpFInPFKEFX1d1v1yl4Zbrpeih4Y0&usqp=CAU';
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration(seconds: 3), () {
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => LoginPage()));
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Center(
+        child: Image.network(logoImageUrl, width: 200.0, height: 200.0),
+      ),
+    );
+  }
+}
+
+class LoginPage extends StatelessWidget {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Login Page')),
+      body: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: <Widget>[
+            TextField(
+              controller: emailController,
+              decoration: InputDecoration(
+                labelText: 'Email or Phone Number',
+                prefixIcon: Icon(Icons.person),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            TextField(
+              controller: passwordController,
+              obscureText: true,
+              decoration: InputDecoration(
+                labelText: 'Password',
+                prefixIcon: Icon(Icons.lock),
+              ),
+            ),
+            SizedBox(height: 20.0),
+            ElevatedButton(
+              onPressed: () {
+                Navigator.pushReplacement(context, MaterialPageRoute(builder: (_) => HomePage()));
+              },
+              child: Text('Submit'),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class HomePage extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Home Page')),
+      drawer: Drawer(
+        child: ListView(
+          padding: EdgeInsets.zero,
+          children: <Widget>[
+            DrawerHeader(
+              child: Text(
+                'Menu',
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 24,
+                ),
+              ),
+              decoration: BoxDecoration(
+                color: Colors.blue,
+              ),
+            ),
+            ListTile(
+              leading: Icon(Icons.notifications),
+              title: Text('Notifications'),
+              onTap: () {
+                // Handle navigation to notifications
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.rate_review),
+              title: Text('Reviews'),
+              onTap: () {
+                // Handle navigation to reviews
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.info),
+              title: Text('About'),
+              onTap: () {
+                // Handle navigation to about
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.settings),
+              title: Text('Settings'),
+              onTap: () {
+                // Handle navigation to settings
+              },
+            ),
+            ListTile(
+              leading: Icon(Icons.logout),
+              title: Text('Logout'),
+              onTap: () {
+                // Handle logout
+              },
+            ),
+          ],
+        ),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            'https://media.istockphoto.com/id/579405036/photo/travel-budget-concept-with-compass-passport-and-aircraft-toy.jpg?s=612x612&w=0&k=20&c=5YGXkq4OUrDOe3hswyss9BHGRL4ia84glX3AsBpirS8=',
+            fit: BoxFit.cover,
+          ),
+          Center(
+            child: Text(
+              'Welcome to Voyage Budget Tracker',
+              style: TextStyle(
+                fontSize: 24.0,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        ],
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(context, MaterialPageRoute(builder: (_) => StateSelectionPage()));
+        },
+        child: Icon(Icons.arrow_forward),
+      ),
+    );
+  }
+}
+
+
+class StateSelectionPage extends StatelessWidget {
+  final List<String> states = [
+    'Andhra Pradesh', 'Arunachal Pradesh', 'Assam', 'Bihar', 'Chhattisgarh',
+    'Goa', 'Gujarat', 'Haryana', 'Himachal Pradesh', 'Jharkhand', 'Karnataka',
+    'Kerala', 'Madhya Pradesh', 'Maharashtra', 'Manipur', 'Meghalaya',
+    'Mizoram', 'Nagaland', 'Odisha', 'Punjab', 'Rajasthan', 'Sikkim',
+    'Tamil Nadu', 'Telangana', 'Tripura', 'Uttar Pradesh', 'Uttarakhand',
+    'West Bengal'
+  ];
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(title: Text('Select a State')),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            'https://thumbs.dreamstime.com/b/vector-indian-map-flag-design-25940427.jpg?w=768',
+            fit: BoxFit.cover,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Select the state that you want to travel',
+                    ),
+                    items: states.map((String state) {
+                      return DropdownMenuItem<String>(
+                        value: state,
+                        child: Text(state),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      if (newValue != null) {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(builder: (_) => CitiesScreen(selectedState: newValue)),
+                        );
+                      }
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  // Handle confirm action
+                },
+                child: Text('Confirm'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class CitiesScreen extends StatefulWidget {
+  final String selectedState;
+
+  CitiesScreen({required this.selectedState});
+
+  @override
+  _CitiesScreenState createState() => _CitiesScreenState();
+}
+
+class _CitiesScreenState extends State<CitiesScreen> {
+  bool isCityExpanded = false;
+  String selectedCity = '';
+  late List<String> touristPlaces;
+
+  final Map<String, List<String>> stateCities = {
+    'Andhra Pradesh': ['Visakhapatnam', 'Vijayawada', 'Guntur', 'Nellore', 'Kurnool', 'Rajahmundry', 'Kakinada', 'Tirupati', 'Anantapur', 'Kadapa'],
+    'Arunachal Pradesh': ['Itanagar', 'Tawang', 'Ziro', 'Pasighat', 'Bomdila', 'Along', 'Tezu', 'Khonsa', 'Seppa', 'Roing'],
+    'Assam': ['Guwahati', 'Dibrugarh', 'Silchar', 'Jorhat', 'Nagaon', 'Tinsukia', 'Tezpur', 'Bongaigaon', 'Karimganj', 'Sivasagar'],
+    'Karnataka':['Bangalore(Bengaluru)','Mysore(Mysuru)','HubliDharwad','Mangalore','Belgaum','Gula(Kalaburagi)','Davanagere','Bellary (Ballari)','Shimoga (Shivamogga)','Tumkur'],
+ // Add more states and cities here
+  };
+
+  final Map<String, List<String>> cityTouristPlaces = {
+    'Visakhapatnam': ['RK Beach', 'Kailasagiri', 'Simhachalam Temple', 'Indira Gandhi Zoological Park', 'Yarada Beach', 'Borra Caves', 'Rishikonda Beach', 'Araku Valley', 'Submarine Museum', 'VUDA Park'],
+    'Vijayawada': ['Prakasam Barrage', 'Kanaka Durga Temple', 'Undavalli Caves', 'Bhavani Island', 'Kondapalli Fort', 'Mangalagiri Temple', 'Rajiv Gandhi Park', 'Hazratbal Mosque', 'Victoria Museum', 'Amaravati Museum'],
+    'Guntur': ['Amaravati', 'Uppalapadu Bird Sanctuary', 'Kondaveedu Fort', 'Mangalagiri', 'Kotappakonda', 'Bhattiprolu', 'Chebrolu', 'Guthikonda Caves', 'Krishna Barrage', 'Downtown Guntur'],
+   'Bangalore(Bengaluru)':['LalbaghBotanicalGarden','BangalorePalace','CubbonPark','ISKCONTempleBangalore',
+  'sutans SummerPalace','BannerghattaNationalPark','WonderlaAmusement Park','Vidhana Soudha','Ulsoor Lake','Bangalore Fort'],
+    'Mangalore':['PanamburBeach','KudroliGokarnathTemple','SultanBattery','Tannirbhavi Beach','St. Aloysius Chapel','Mangaladevi Temple','Ullal Beach','Pilikula Nisargadhama','Mangalore Beach','Netravati River'],// Add more cities and their tourist places here
+  };
+
+  @override
+  Widget build(BuildContext context) {
+    final List<String> cities = stateCities[widget.selectedState] ?? [];
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Select a City in ${widget.selectedState}')),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRbwcp0pVrk2eaLP4ioGIm5xWB4RijSe1Lv1w&s',
+            fit: BoxFit.cover,
+          ),
+          Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Container(
+                  padding: EdgeInsets.symmetric(horizontal: 16.0),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.8),
+                    borderRadius: BorderRadius.circular(8.0),
+                  ),
+                  child: DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      border: InputBorder.none,
+                      labelText: 'Select the city that you want to travel',
+                    ),
+                    items: cities.map((String city) {
+                      return DropdownMenuItem<String>(
+                        value: city,
+                        child: Text(city),
+                      );
+                    }).toList(),
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        selectedCity = newValue!;
+                        touristPlaces = cityTouristPlaces[selectedCity] ?? [];
+                        isCityExpanded = true;
+                      });
+                    },
+                  ),
+                ),
+              ),
+              SizedBox(height: 20.0),
+              if (isCityExpanded)
+                Expanded(
+                  child: ListView.builder(
+                    itemCount: touristPlaces.length,
+                    itemBuilder: (context, index) {
+                      return ListTile(
+                        title: Text(touristPlaces[index]),
+                      );
+                    },
+                  ),
+                ),
+              SizedBox(height: 20.0),
+              ElevatedButton(
+                onPressed: () {
+                  if (selectedCity.isNotEmpty) {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (_) => TravelDetailsInputPage(selectedCity: selectedCity)),
+                    );
+                  }
+                },
+                child: Text('Confirm'),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class TravelDetailsInputPage extends StatefulWidget {
+  final String selectedCity;
+
+  TravelDetailsInputPage({required this.selectedCity});
+
+  @override
+  _TravelDetailsInputPageState createState() => _TravelDetailsInputPageState();
+}
+
+class _TravelDetailsInputPageState extends State<TravelDetailsInputPage> {
+  int numberOfPersons = 1;
+  int numberOfDays = 1;
+  String modeOfTravel = 'Train'; // Default mode of travel
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: Text('Travel Details'),
+      ),
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSnos2C1LOyOXP0mUt-YJObaT2a2b6Qr5xBlA&s',
+            fit: BoxFit.cover,
+          ),
+          Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                Text(
+                  'Selected City: ${widget.selectedCity}',
+                  style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Number of Persons',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      numberOfPersons = int.tryParse(value) ?? 1;
+                    });
+                  },
+                ),
+                SizedBox(height: 20.0),
+                TextField(
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Number of Days to Spend',
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    setState(() {
+                      numberOfDays = int.tryParse(value) ?? 1;
+                    });
+                  },
+                ),
+                SizedBox(height: 20.0),
+                DropdownButtonFormField<String>(
+                  value: modeOfTravel,
+                  decoration: InputDecoration(
+                    labelText: 'Mode of Travel',
+                    border: OutlineInputBorder(),
+                  ),
+                  items: ['Train', 'Bus', 'Car', 'Airplane', 'Ship', 'Two Wheeler']
+                      .map((String mode) {
+                    return DropdownMenuItem<String>(
+                      value: mode,
+                      child: Text(mode),
+                    );
+                  }).toList(),
+                  onChanged: (String? newValue) {
+                    if (newValue != null) {
+                      setState(() {
+                        modeOfTravel = newValue;
+                      });
+                    }
+                  },
+                ),
+                SizedBox(height: 20.0),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (_) => TravelResultsScreen(
+                          selectedCity: widget.selectedCity,
+                          numberOfPersons: numberOfPersons,
+                          numberOfDays: numberOfDays,
+                          modeOfTravel: modeOfTravel,
+                        ),
+                      ),
+                    );
+                  },
+                  child: Text('Calculate Budget'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+class TravelResultsScreen extends StatelessWidget {
+  final String selectedCity;
+  final int numberOfPersons;
+  final int numberOfDays;
+  final String modeOfTravel;
+
+  TravelResultsScreen({
+    required this.selectedCity,
+    required this.numberOfPersons,
+    required this.numberOfDays,
+    required this.modeOfTravel,
+  });
+
+  // Function to calculate suggested expenses
+  Map<String, int> calculateExpenses(
+      String selectedCity, int numberOfPersons, int numberOfDays, String modeOfTravel) {
+    // Logic to calculate suggested expenses based on the selected city, number of persons, days, and mode of travel
+    int accommodationCharges = 1000; // Example: Base accommodation charges
+    int foodCharges = 1000; // Example: Base food charges
+    int travelingExpenses = 1000; // Example: Base traveling expenses
+    int otherExpenses = 1000; // Example: Base other expenses
+
+    // Adjust expenses based on selectedCity, numberOfPersons, numberOfDays, and modeOfTravel
+    switch (selectedCity) {
+      case 'Visakhapatnam':
+        accommodationCharges += 1000 * numberOfPersons;
+        foodCharges += 500 * numberOfPersons;
+        travelingExpenses += 500 * numberOfPersons;
+        break;
+      case 'Vijayawada':
+        accommodationCharges += 1000 * numberOfPersons;
+        foodCharges += 600 * numberOfPersons;
+        travelingExpenses += 1200 * numberOfPersons;
+        break;
+      case 'Bangalore(Bengaluru)':
+        accommodationCharges += 2000 * numberOfPersons;
+        foodCharges += 1500 * numberOfPersons;
+        travelingExpenses += 2000 * numberOfPersons;
+        break;
+      case 'Mangalore':
+        accommodationCharges += 2500 * numberOfPersons;
+        foodCharges += 1800 * numberOfPersons;
+        travelingExpenses += 2300 * numberOfPersons;
+        break; // Add more cases for other cities
+      default:
+        break;
+    }
+
+    switch (modeOfTravel) {
+      case 'Train':
+        travelingExpenses += 500 * numberOfPersons;
+        break;
+      case 'Bus':
+        travelingExpenses += 5000 * numberOfPersons;
+        break;
+      case 'Car':
+        travelingExpenses += 8000 * numberOfPersons;
+        break;
+      case 'Airplane':
+        travelingExpenses += 15000 * numberOfPersons;
+        break;
+      case 'Ship':
+        travelingExpenses += 12000 * numberOfPersons;
+        break;
+      case 'Two Wheeler':
+        travelingExpenses += 3000 * numberOfPersons;
+        break;
+      default:
+        break;
+    }
+
+    // Adjust expenses based on numberOfDays
+    accommodationCharges *= numberOfDays;
+    foodCharges *= numberOfDays;
+    travelingExpenses *= numberOfDays;
+    otherExpenses *= numberOfDays;
+
+    // Total budget
+    int totalBudget = accommodationCharges + foodCharges + travelingExpenses + otherExpenses;
+
+    return {
+      'Accommodation Charges': accommodationCharges,
+      'Food Charges': foodCharges,
+      'Traveling Expenses': travelingExpenses,
+      'Other Expenses': otherExpenses,
+      'Total Budget': totalBudget,
+    };
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    Map<String, int> expenses =
+        calculateExpenses(selectedCity, numberOfPersons, numberOfDays, modeOfTravel);
+
+    return Scaffold(
+      appBar: AppBar(title: Text('Travel Budget Results')),
+      extendBodyBehindAppBar: true,
+      body: Stack(
+        fit: StackFit.expand,
+        children: [
+          Image.network(
+            'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRP6G79mqee1qynXFEPyxqnJpaoToA5_tce4A&s',
+            fit: BoxFit.cover,
+          ),
+          SingleChildScrollView(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: MediaQuery.of(context).size.height * 0.1),
+                Text(
+                  'Selected City: $selectedCity',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(height: 10),
+                Text(
+                  'Number of Persons: $numberOfPersons',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  'Number of Days: $numberOfDays',
+                  style: TextStyle(fontSize: 20),
+                ),
+                Text(
+                  'Mode of Travel: $modeOfTravel',
+                  style: TextStyle(fontSize: 20),
+                ),
+                SizedBox(height: 20),
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: expenses.entries
+                      .map((entry) => Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  '${entry.key}: ',
+                                  style: TextStyle(
+                                      fontSize: 18, fontWeight: FontWeight.bold),
+                                ),
+                                Text(
+                                  '₹${entry.value}',
+                                  style: TextStyle(fontSize: 18),
+                                ),
+                              ],
+                            ),
+                          ))
+                      .toList(),
+                ),
+                SizedBox(height: 20),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(builder: (_) => StateSelectionPage()),
+                    );
+                  },
+                  child: Text('Back to Home'),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
